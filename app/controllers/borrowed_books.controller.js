@@ -5,10 +5,10 @@ const ApiError = require("../api-error");
 // Add borrow books
 exports.create = async (req, res, next) => {
     const userId = req.params.id;
-    const { ngayMuon, ngayTra, books } = req.body;
+    const { name, ngayMuon, ngayTra, books } = req.body;
     try {
         const borrowBooks = new BorrowBooks(MongoBD.client);
-        const document = await borrowBooks.addBorrow(userId, ngayMuon, ngayTra, books);
+        const document = await borrowBooks.addBorrow(userId, name, ngayMuon, ngayTra, books);
         return res.send(document);
     } catch (error) {
         console.error("Error creating borrow:", error);

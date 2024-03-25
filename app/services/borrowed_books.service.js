@@ -8,6 +8,7 @@ class BorrowBooks {
     extractBorrowBooksData(payload) {
         const borrowBooks = {
             userId: payload.userId,
+            name: payload.name,
             ngayMuon: payload.ngayMuon,
             ngayTra: payload.ngayTra,
             books: payload.books,
@@ -15,10 +16,11 @@ class BorrowBooks {
         };
     }
 
-    async addBorrow(userId, ngayMuon, ngayTra, books = []) {
+    async addBorrow(userId, name, ngayMuon, ngayTra, books = []) {
         try {
             const borrowEntry = {
                 userId: userId,
+                name: name,
                 ngayMuon: ngayMuon,
                 ngayTra: ngayTra,
                 status: "Đang đợi duyệt",
@@ -34,15 +36,10 @@ class BorrowBooks {
         }
     }
 
-    async findById(userId) {
-        try {
-            const query = { userId: userId };
-            const borrowedList = await this.BorrowBooks.find(query).toArray();
-            return borrowedList;
-        } catch (error) {
-            console.error("Error finding borrowed books by userId:", error);
-            throw error;
-        }
+    async findById(id) {
+        return await this.BorrowBooks.findOne({
+            _id: ObjectId.isValid(id) ? new ObjectId(id) : null,
+        });
     }
 
     async find(filter) {
