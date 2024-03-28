@@ -14,26 +14,21 @@ class BorrowBooks {
             books: payload.books,
             status: payload.status,
         };
+
+        Object.keys(borrowBooks).forEach(
+            (key) => borrowBooks[key] === undefined && delete borrowBooks[key]
+        );
+
+        return borrowBooks;
     }
 
-    async addBorrow(userId, name, ngayMuon, ngayTra, books = []) {
-        try {
-            const borrowEntry = {
-                userId: userId,
-                name: name,
-                ngayMuon: ngayMuon,
-                ngayTra: ngayTra,
-                status: "Đang đợi duyệt",
-                books: books
-            };
-
-            const result = await this.BorrowBooks.insertOne(borrowEntry);
-
-            return result.insertedId;
-        } catch (error) {
-            console.error("Error adding borrow:", error);
-            throw error;
-        }
+    async create(payload) {
+        const borrowBooks = this.extractBorrowBooksData(payload);
+        borrowBooks.status = "Đang đợi duyệt";
+        const newOrder = await this.BorrowBooks.insertOne(
+            borrowBooks
+        );
+        return newOrder.value;
     }
 
     async findById(id) {
@@ -51,23 +46,13 @@ class BorrowBooks {
         const filter = {
             _id: ObjectId.isValid(id) ? new ObjectId(id) : null,
         };
-        const update = {
-            ...payload // Sử dụng trực tiếp dữ liệu từ payload
-        };
-        try {
-            const result = await this.BorrowBooks.findOneAndUpdate(
-                filter,
-                { $set: update },
-                { returnDocument: "after" }
-            );
-            return result;
-        } catch (error) {
-            console.error("Error updating borrowed book:", error);
-            throw error;
-        }
+        const update = this.extractBorrowBooksData(payload);
+        const result = await this.BorrowBooks.findOneAndUpdate(
+            filter,
+            { $set: update },
+            { returnDocument: "after" }
+        );
+        return result;
     }
-
-
-
 }
 module.exports = BorrowBooks;

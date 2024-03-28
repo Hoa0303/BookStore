@@ -4,11 +4,9 @@ const ApiError = require("../api-error");
 
 // Add borrow books
 exports.create = async (req, res, next) => {
-    const userId = req.params.id;
-    const { name, ngayMuon, ngayTra, books } = req.body;
     try {
         const borrowBooks = new BorrowBooks(MongoBD.client);
-        const document = await borrowBooks.addBorrow(userId, name, ngayMuon, ngayTra, books);
+        const document = await borrowBooks.create(req.body);
         return res.send(document);
     } catch (error) {
         console.error("Error creating borrow:", error);
@@ -58,7 +56,7 @@ exports.update = async (req, res, next) => {
         return res.send({ message: "Borrow was update successfully" });
     } catch (error) {
         return next(
-            new ApiError(500, `Error updating book with id=${req.params.id}`)
+            new ApiError(500, `Error updating borrow with id=${req.params.id}`)
         );
     }
 };
