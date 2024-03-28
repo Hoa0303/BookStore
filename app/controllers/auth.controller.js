@@ -20,22 +20,24 @@ exports.register = async (req, res, next) => {
 };
 
 //Login with email and password
-exports.login = async (req, res, next) => {
+exports.findByEmailAndPassword = async (req, res, next) => {
+    const { email, password } = req.body;
+
     try {
         const authService = new AuthService(MongoBD.client);
-        const document = await authService.login(req.body);
-        if (document) {
-            return res.send(document);
+        const user = await authService.findByEmailAndPassword(email, password);
+
+        if (!user) {
+            return next(new ApiError(401, "Incorrect email or password"));
         }
-        else {
-            return next(new ApiError(400, "Tài khoản hoặc mật khẩu không chính xác!"));
-        }
+
+        // Return the user details if login successful
+        return res.send(user);
     } catch (error) {
-        return next(
-            new ApiError(500, "An error occurred while creating the contact")
-        );
+        console.error('Error logging in:', error);
+        return next(new ApiError(500, "An error occurred while logging in"));
     }
-}
+};
 
 //Update information of user
 exports.update = async (req, res, next) => {

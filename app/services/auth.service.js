@@ -35,22 +35,8 @@ class AuthService {
         return result.value;
     }
 
-    async login(payload) {
-        const auth = this.extractAuthData(payload);
-        const user = await this.Auth.findOne(
-            { email: auth.email },
-            { password: auth.password }
-        );
-
-        if (user) {
-            if (user.role === false) {
-                return user._id.toString();
-            } else {
-                return "This is admin";
-            }
-        } else {
-            return null;
-        }
+    async findByEmailAndPassword(email, password) {
+        return await this.Auth.findOne({ email, password });
     }
 
     async findById(id) {
