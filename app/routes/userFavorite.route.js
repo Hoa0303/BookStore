@@ -4,8 +4,12 @@ const userFavorite = require("../controllers/userFavorite.controller");
 const router = express.Router();
 
 router.route('/:id')
-    .post(userFavorite.add)
-    .get(userFavorite.findAll)
-    .delete(userFavorite.delete);
+    .get(userFavorite.findAll);
+
+router.route('/add')
+    .post(userFavorite.add);
+
+router.route('/delete')
+    .post(userFavorite.delete);
 
 module.exports = router;

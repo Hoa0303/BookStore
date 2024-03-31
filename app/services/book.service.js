@@ -11,6 +11,7 @@ class BookService {
             author: payload.author,
             genre: payload.genre,
             imageUrl: payload.imageUrl,
+            description: payload.description,
             quantity: payload.quantity
         };
 

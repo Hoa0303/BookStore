@@ -12,9 +12,8 @@ class UserFavorite {
         };
     }
 
-    async addFavorite(userId, payload) {
+    async addFavorite(userId, bookId) {
         try {
-            const bookId = payload.bookId;
             const existingFavorite = await this.UserFavorite.findOne({ userId: userId });
 
             if (existingFavorite) {
@@ -49,9 +48,8 @@ class UserFavorite {
         }
     }
 
-    async removeFavorite(userId, payload) {
+    async removeFavorite(userId, bookIdToRemove) {
         try {
-            const bookIdToRemove = payload;
             await this.UserFavorite.findOneAndUpdate(
                 { userId: userId },
                 { $pull: { bookId: bookIdToRemove } },

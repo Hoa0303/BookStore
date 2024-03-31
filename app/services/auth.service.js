@@ -13,6 +13,7 @@ class AuthService {
             password: payload.password,
             address: payload.address,
             phone: payload.phone,
+            gender: payload.gender,
             role: payload.role,
         };
 
