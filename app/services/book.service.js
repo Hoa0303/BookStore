@@ -9,6 +9,7 @@ class BookService {
         const book = {
             title: payload.title,
             author: payload.author,
+            publisher: payload.publisher,
             genre: payload.genre,
             imageUrl: payload.imageUrl,
             description: payload.description,

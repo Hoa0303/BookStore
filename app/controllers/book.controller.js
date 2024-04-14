@@ -79,7 +79,7 @@ exports.update = async (req, res, next) => {
         return next(
             new ApiError(500, `Error updating book with id=${req.params.id}`)
         );
-    }
+    }   
 };
 
 //Delete book
