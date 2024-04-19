@@ -13,6 +13,7 @@ class BorrowBooks {
             ngayTra: payload.ngayTra,
             books: payload.books,
             status: payload.status,
+            req: payload.req
         };
 
         Object.keys(borrowBooks).forEach(
