@@ -2,7 +2,7 @@ const { ObjectId } = require("mongodb");
 
 class BorrowBooks {
     constructor(client) {
-        this.BorrowBooks = client.db().collection("borrowed_books");
+        this.BorrowBooks = client.db().collection("donmuonsach");
     }
 
     extractBorrowBooksData(payload) {

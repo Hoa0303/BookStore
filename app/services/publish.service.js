@@ -2,7 +2,7 @@ const { ObjectId } = require("mongodb");
 
 class PublishService {
     constructor(client) {
-        this.Publish = client.db().collection("publisher");
+        this.Publish = client.db().collection("nhaxuatban");
     }
 
     extractPublishData(payload) {

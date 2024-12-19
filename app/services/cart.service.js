@@ -66,6 +66,39 @@ class CartService {
         }
     }
 
+    async updateProductQuantity(userId, bookId, newQuantity) {
+        if (newQuantity < 1) {
+            throw new Error("Quantity must be at least 1");
+        }
+
+        try {
+            const cart = await this.CartService.findOne({ userId });
+
+            if (!cart) {
+                throw new Error("Cart not found for the given user");
+            }
+
+            const bookIndex = cart.books.findIndex(book => book.bookId === bookId);
+
+            if (bookIndex === -1) {
+                throw new Error("Book not found in the cart");
+            }
+
+            // Cập nhật số lượng sản phẩm trong giỏ hàng
+            cart.books[bookIndex].quantity = newQuantity;
+
+            // Cập nhật giỏ hàng trong cơ sở dữ liệu
+            await this.CartService.updateOne(
+                { userId },
+                { $set: { books: cart.books } }
+            );
+
+            return { success: true, updatedCart: cart };
+        } catch (error) {
+            throw new Error("Failed to update product quantity");
+        }
+    }
+
     async findAll(userId) {
         try {
             const cartService = await this.CartService.findOne({ userId: userId });

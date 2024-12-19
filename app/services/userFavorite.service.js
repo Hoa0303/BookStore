@@ -2,7 +2,7 @@ const { ObjectId } = require("mongodb");
 
 class UserFavorite {
     constructor(client) {
-        this.UserFavorite = client.db().collection("user_favorites");
+        this.UserFavorite = client.db().collection("yeuthich");
     }
 
     extractUserFavoritesData(payload) {

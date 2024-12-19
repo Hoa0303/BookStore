@@ -13,4 +13,7 @@ router.route('/add')
 router.route('/delete')
     .post(carts.removeItem);
 
+router.route('/update')
+    .put(carts.updateProductQuantity);
+
 module.exports = router;

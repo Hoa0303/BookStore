@@ -36,6 +36,18 @@ exports.removeItem = async (req, res, next) => {
     }
 };
 
+exports.updateProductQuantity = async (req, res, next) => {
+    const { userId, bookId, newQuantity } = req.body;
+    try {
+        const cartService = new CartService(MongoBD.client);
+        await cartService.updateProductQuantity(userId, bookId, newQuantity);
+        res.status(200).json({ success: true });
+    } catch (error) {
+        console.error("Error updating product quantity:", error);
+        return next(new ApiError(500, "An error occurred while updating product quantity"));
+    }
+};
+
 exports.delete = async (req, res, next) => {
     try {
         const cartService = new CartService(MongoBD.client);
